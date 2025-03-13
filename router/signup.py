@@ -8,6 +8,7 @@ from model.handle_db import HandleDB
 
 router = APIRouter()
 template = Jinja2Templates(directory="./view")
+db = HandleDB()
 
 @router.get('/signup', response_class=HTMLResponse)
 def signup(req: Request):
