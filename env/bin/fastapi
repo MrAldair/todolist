@@ -1,4 +1,4 @@
-#!/home/aldair/Desktop/Python/todolist/env/bin/python3
+#!/home/mraldair/proyectos/todolist/env/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

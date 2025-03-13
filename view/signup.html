@@ -5,7 +5,31 @@
     <h1>Create User</h1>
 </div>
 
-<section></section>
+<form method="post" action="signup" class="row g-3 mx-sm-5 mx2">
+    <div class="form-floating mb-3">
+        <input id="firstname" type="text" class="form-control" name="firstname" placeholder="firstname">
+        <label for="firstname">Firstname</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input id="lastname" type="text" class="form-control" name="lastname" placeholder="lastname">
+        <label for="lastname">Lastname</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input id="position_id" type="text" class="form-control" name="position_id" placeholder="position_id">
+        <label for="position_id">Position</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input id="username" type="text" class="form-control" name="username" placeholder="username">
+        <label for="username">Username</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input id="password" type="password" class="form-control" name="password" placeholder="password">
+        <label for="password">Password</label>
+    </div>
+    <div class="col-12">
+        <button class="btn btn-outline-primary" type="submit">Create User</button>
+    </div>
+</form>
 
 
 {% endblock %}

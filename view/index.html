@@ -5,7 +5,20 @@
     <h1>Welcome  to: To Do List</h1>
 </div>
 
-<section></section>
+<section class="row justify-content-center">
+    <form action="/index" method="POST" class="col-sm-5 col-10">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInput" placeholder="username">
+            <label for="floatingInput">Username</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+          </div>
+          <br>
+          <button type="submit" class="btn btn-outline-primary">Log in</button>
+    </form>
+</section>
 
 
 {% endblock %}
