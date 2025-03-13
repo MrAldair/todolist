@@ -1,4 +1,4 @@
-from fastapi import APIRouter, FastAPI, Request,HTTPException, status
+from fastapi import APIRouter, FastAPI, Form, Request,HTTPException, status
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from controller.user import User
@@ -12,3 +12,10 @@ template = Jinja2Templates(directory="./view")
 @router.get('/dashboard', response_class=HTMLResponse)
 def get_dashboard(req: Request):
     return template.TemplateResponse('dashboard.html', {'request': req})
+
+@router.post('/dashboard', response_class=HTMLResponse)
+def get_dashboard(req: Request, username: str = Form(), password: str = Form() ):
+    verify = check_user(username, password)
+    if verify: 
+        return template.TemplateResponse('dashboard.html', {'request': req, 'data_user': verify})
+    return RedirectResponse('/')
