@@ -25,10 +25,11 @@ class HandleDB():
         cur.execute("SELECT * FROM users WHERE username = ?", (data_user,))
         data = cur.fetchone()
         conn.close()
-        
+        return data
+    
     #obtiene el user_id del usuario
     def get_user_id_by_username(self, username: str):
         user_data = self.get_only(username)
         if user_data:
-            return user_data[2]  
+            return user_data[4]  
         return None

@@ -8,13 +8,15 @@ from model.handle_db import HandleDB
 
 router = APIRouter()
 template = Jinja2Templates(directory="./view")
+db = HandleDB()
 
 @router.get('/dashboard', response_class=HTMLResponse)
 def get_dashboard(req: Request):
-    return template.TemplateResponse('dashboard.html', {'request': req})
+    return RedirectResponse('/')
+    #return template.TemplateResponse('dashboard.html', {'request': req})
 
 @router.post('/dashboard', response_class=HTMLResponse)
-def get_dashboard(req: Request, username: str = Form(), password: str = Form() ):
+def post_dashboard(req: Request, username: str = Form(), password: str = Form()):
     verify = check_user(username, password)
     if verify: 
         return template.TemplateResponse('dashboard.html', {'request': req, 'data_user': verify})
