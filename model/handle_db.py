@@ -34,11 +34,16 @@ class HandleDB():
             return user_data[4]  
         return None
     
-    #Modificar a dicccionario 
+
     def get_all_users(self):
         conn = self._connect()
         cur = conn.cursor()
-        cur.execute("SELECT * FROM users")
-        data = cur.fetchall()
-        conn.close()
-        return data
+        try:
+            cur.execute("SELECT * FROM users")
+            data = cur.fetchall()
+            return data
+        except sqlite3.Error as e:
+            print(f"Error al obtener los usuarios: {e}")
+            raise
+        finally:
+            conn.close()
