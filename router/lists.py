@@ -15,10 +15,22 @@ def get_dashboard(req: Request):
     if not username:
         return RedirectResponse(url='/', status_code=303)
 
+    # Consultas
+    categories = db.get_all_categories()
+    users = db.get_all_users()
+    status = db.get_all_status()
+
+    print(users)
+    print(status)
+    
+
     return template.TemplateResponse(
         'lists.html',
         {
             'request': req, 
             "username": username,
+            'categories': categories,
+            'users': users,
+            'status': status
         }
     )

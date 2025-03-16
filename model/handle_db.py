@@ -36,14 +36,37 @@ class HandleDB():
     
 
     def get_all_users(self):
-        conn = self._connect()
-        cur = conn.cursor()
         try:
-            cur.execute("SELECT * FROM users")
-            data = cur.fetchall()
-            return data
+            with self._connect() as conn:
+                cur = conn.cursor()
+                cur.execute("SELECT user_id, username FROM users")
+                users = [{"user_id": row[0], "username": row[1]} for row in cur.fetchall()]
+                return users
         except sqlite3.Error as e:
-            print(f"Error al obtener los usuarios: {e}")
+            print(f"Error al obtener todos los usuarios {e}")
             raise
-        finally:
-            conn.close()
+
+#---------------------Categories--------------------------------
+    def get_all_categories(self):
+        try:
+            with self._connect() as conn:
+                cur = conn.cursor()
+                cur.execute("SELECT category_id, category FROM categories")
+                categories = [{"category_id": row[0], "category": row[1]} for row in cur.fetchall()]
+                return categories
+        except sqlite3.Error as e:
+            print(f"Error al obtener todas las categorias {e}")
+            raise
+
+#---------------------Status--------------------------------
+
+    def get_all_status(self):
+        try:
+            with self._connect() as conn:
+                cur = conn.cursor()
+                cur.execute("SELECT status_id, status FROM status")
+                status = [{"status_id": row[0], "status": row[1]} for row in cur.fetchall()]
+                return status
+        except sqlite3.Error as e:
+            print(f"Error al obtener todas las status: {e}")
+            raise
