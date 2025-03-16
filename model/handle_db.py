@@ -33,3 +33,11 @@ class HandleDB():
         if user_data:
             return user_data[4]  
         return None
+    
+    def get_all_users(self):
+        conn = self._connect()
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM users")
+        data = cur.fetchall()
+        conn.close()
+        return data
