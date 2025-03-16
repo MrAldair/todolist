@@ -1,8 +1,7 @@
-from fastapi import APIRouter, FastAPI, Request, Form, Depends, HTTPException, status
+from fastapi import APIRouter, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from controller.user import User
-from lib.check_passw import check_user
 from model.handle_db import HandleDB
 
 

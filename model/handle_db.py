@@ -34,6 +34,7 @@ class HandleDB():
             return user_data[4]  
         return None
     
+    #Modificar a dicccionario 
     def get_all_users(self):
         conn = self._connect()
         cur = conn.cursor()
