@@ -32,9 +32,9 @@
 
     <div class="form-floating mb-3">
         <select name="user_id" class="form-select" required>
-            <option value="">Select Status</option>
+            <option value="">Select User</option>
             {% for user in users %}
-                <option value="{{ user['user_id'] }}">{{ user['username'] }}</option>
+                <option value="{{ user['user_id'] }}">{{ user['name'] }}</option>
             {% endfor %}
         </select>
         <label for="user_id">Handle by</label>
@@ -78,10 +78,10 @@
                 <td>{{ task['task_id'] }}</td>   
                 <td>{{ task['task'] }}</td>  
                 <td>{{ task['details'] }}</td>  
-                <td>{{ task['created'] }}</td>  
+                <td>{{ task['Created on'] }}</td>  
                 <td>{{ task['status_id'] }}</td>  
                 <td>{{ task['category_id'] }}</td>  
-                <td>{{ task['user_id'] }}</td>  
+                <td>{{ task['user_name'] }}</td>  
                 <td>{{ task['updated'] }}</td>  
                 <td>
                     <a href="//{{ task[0] }}" class="btn btn-outline-warning">Update</a>

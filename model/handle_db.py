@@ -39,8 +39,8 @@ class HandleDB():
         try:
             with self._connect() as conn:
                 cur = conn.cursor()
-                cur.execute("SELECT user_id, username FROM users")
-                users = [{"user_id": row[0], "username": row[1]} for row in cur.fetchall()]
+                cur.execute("SELECT user_id, firstname || ' ' || lastname as name FROM users")
+                users = [{"user_id": row[0], "name": row[1]} for row in cur.fetchall()]
                 return users
         except sqlite3.Error as e:
             print(f"Error al obtener todos los usuarios {e}")
@@ -89,9 +89,22 @@ class HandleDB():
         try:
             with self._connect() as conn:
                 cur = conn.cursor()
-                cur.execute("SELECT * FROM tasks")
-                tasks = [{"task_id": row[0], "task": row[1], "details": row[2], "created": row[3],
-                           "status_id": row[4], "category_id": row[5], "user_id": row[6], "updated": row[7]} for row in cur.fetchall()]
+                cur.execute("""
+                            SELECT
+                                t.task_id,
+                                t.task,
+                                t.details,
+                                STRFTIME('%m-%d-%Y', t.created) AS Created,
+                                s.status AS status,
+                                c.category AS Category,
+                                u.firstname || ' ' || u.lastname AS user_name,
+                                t.updated
+                            FROM tasks t
+                            LEFT JOIN status s ON t.status_id = s.status_id
+                            LEFT JOIN categories c ON t.category_id = c.category_id
+                            LEFT JOIN users u ON t.user_id = u.user_id;""")
+                tasks = [{"task_id": row[0], "task": row[1], "details": row[2], "Created on": row[3],
+                           "status_id": row[4], "category_id": row[5], "user_name": row[6], "updated": row[7]} for row in cur.fetchall()]
                 return tasks
         except sqlite3.Error as e:
             print(f"Error al obtener todas las tasks: {e}")
