@@ -3,11 +3,12 @@
 {% block content %}
 <div class="row m-sm-5 m-3">
     <h1>To Do List </h1>
+    <p>{{ username }}</p>
 </div>
 
-<form method="post" action="/lists" class="row g-3 mx-sm-5 mx-2">
+<form method="post" action="/tasks" class="row g-3 mx-sm-5 mx-2">
     <div class="form-floating mb-3">
-        <input id="task" type="text" class="form-control" name="task" placeholder="task">
+        <input id="task" type="text" class="form-control" name="task" placeholder="task" required>
         <label for="task">Task</label>
     </div>
     <div class="form-floating mb-3">
@@ -21,7 +22,7 @@
     </div>
 
     <div class="form-floating mb-3">
-        <textarea name="notes" class="form-control" id="notes" required></textarea> 
+        <textarea name="details" class="form-control" id="details" required></textarea> 
         <label for="details">Details</label>
     </div>
 
@@ -39,8 +40,7 @@
         </select>
         <label for="user_id">Handle by</label>
     </div>
-
-    <div class="form-floating mb-3">
+<!--    <div class="form-floating mb-3">
         <select name="status_id" class="form-select" required>
             <option value="">Select Status</option>
             {% for statuss in status %}
@@ -49,10 +49,11 @@
         </select>
         <label for="status_id">Status</label>
     </div>
+-->
 
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button class="btn btn-outline-primary" type="submit">Submit Task</button>
-        <button class="btn btn-outline-danger" type="button" onclick="window.location.href='/lists'">Cancel</button>
+        <button class="btn btn-outline-danger" type="button" onclick="window.location.href='/tasks'">Cancel</button>
     </div>
 </form>
 

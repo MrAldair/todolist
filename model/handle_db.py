@@ -109,3 +109,18 @@ class HandleDB():
         except sqlite3.Error as e:
             print(f"Error al obtener todas las tasks: {e}")
             raise
+
+    def create_task(self, task, details, created, status_id, category_id, user_id):
+        """Crea una nueva tarea."""
+        try:
+            with self._connect() as conn:
+                cur = conn.cursor()
+                cur.execute("""
+                    INSERT INTO tasks (task, details, created, status_id, category_id, user_id) 
+                    VALUES (?, ?, ?, ?, ?, ?)
+                """, (task, details, created, status_id, category_id, user_id))
+                conn.commit()
+                return cur.lastrowid  # Devuelve el ID de la tarea creada
+        except sqlite3.Error as e:
+            print(f"Error al crear la tarea '{task}': {e}")
+            raise

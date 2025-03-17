@@ -8,7 +8,7 @@ template = Jinja2Templates(directory="./view")
 db = HandleDB()
 
 
-@router.get('/lists', response_class=HTMLResponse)
+@router.get('/tasks', response_class=HTMLResponse)
 def get_dashboard(req: Request):
     # Verificar si el usuario ha iniciado sesión
     username = req.cookies.get('username')
@@ -22,7 +22,7 @@ def get_dashboard(req: Request):
     tasks = db.get_all_tasks()
 
     return template.TemplateResponse(
-        'lists.html',
+        'tasks.html',
         {
             'request': req, 
             "username": username,
@@ -32,3 +32,29 @@ def get_dashboard(req: Request):
             'tasks': tasks
         }
     )
+
+@router.post('/tasks', response_class=RedirectResponse)
+def add_task(
+    req: Request,
+    task: str = Form(...),
+    category_id: int = Form(...),
+    details: str = Form(...),
+    created: str = Form(...),
+    user_id: int = Form(...),
+    status_id: int = 1
+):
+    try:
+        db.create_task(
+            task=task,
+            category_id=category_id,
+            details=details,
+            created=created,
+            user_id=user_id,
+            status_id=status_id
+        )
+        return RedirectResponse(url='/tasks', status_code=303)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error al guardar la tarea: {e}",
+        )
