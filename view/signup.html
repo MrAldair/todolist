@@ -15,7 +15,12 @@
         <label for="lastname">Lastname</label>
     </div>
     <div class="form-floating mb-3">
-        <input id="position_id" type="text" class="form-control" name="position_id" placeholder="position_id">
+        <select name="position_id" class="form-select" required>
+            <option value="">Select Position</option>
+            {% for position in positions %}
+                <option value="{{ position['position_id'] }}">{{ position['position'] }}</option>
+            {% endfor %}
+        </select>
         <label for="position_id">Position</label>
     </div>
     <div class="form-floating mb-3">

@@ -70,3 +70,29 @@ class HandleDB():
         except sqlite3.Error as e:
             print(f"Error al obtener todas las status: {e}")
             raise
+
+#---------------------Positions--------------------------------
+
+    def get_all_positions(self):
+        try:
+            with self._connect() as conn:
+                cur = conn.cursor()
+                cur.execute("SELECT position_id, position FROM positions")
+                positions = [{"position_id": row[0], "position": row[1]} for row in cur.fetchall()]
+                return positions
+        except sqlite3.Error as e:
+            print(f"Error al obtener todas las posiciones: {e}")
+            raise
+
+#---------------------Tasks--------------------------------
+    def get_all_tasks(self):
+        try:
+            with self._connect() as conn:
+                cur = conn.cursor()
+                cur.execute("SELECT * FROM tasks")
+                tasks = [{"task_id": row[0], "task": row[1], "details": row[2], "created": row[3],
+                           "status_id": row[4], "category_id": row[5], "user_id": row[6], "updated": row[7]} for row in cur.fetchall()]
+                return tasks
+        except sqlite3.Error as e:
+            print(f"Error al obtener todas las tasks: {e}")
+            raise

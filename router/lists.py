@@ -19,10 +19,7 @@ def get_dashboard(req: Request):
     categories = db.get_all_categories()
     users = db.get_all_users()
     status = db.get_all_status()
-
-    print(users)
-    print(status)
-    
+    tasks = db.get_all_tasks()
 
     return template.TemplateResponse(
         'lists.html',
@@ -31,6 +28,7 @@ def get_dashboard(req: Request):
             "username": username,
             'categories': categories,
             'users': users,
-            'status': status
+            'status': status,
+            'tasks': tasks
         }
     )

@@ -11,7 +11,18 @@ db = HandleDB()
 
 @router.get('/signup', response_class=HTMLResponse)
 def signup(req: Request):
-    return template.TemplateResponse('signup.html', {'request': req})
+
+    #Consultas
+    positions = db.get_all_positions()
+
+    return template.TemplateResponse(
+        'signup.html',
+        {
+            'request': req,
+            'positions': positions
+
+        }
+    )
 
 @router.post('/signup', response_class=HTMLResponse)
 def create_user(firstname: str = Form(), lastname: str = Form(), position_id: int = Form(), username: str = Form(), password: str = Form()):
