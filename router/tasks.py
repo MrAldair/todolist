@@ -58,3 +58,50 @@ def add_task(
             status_code=500,
             detail=f"Error al guardar la tarea: {e}",
         )
+    
+@router.get('/editTask/{task_id}', response_class=HTMLResponse)
+def edit_task(req: Request, task_id: int):
+    # Verificar si el usuario ha iniciado sesión
+    username = req.cookies.get('username')
+    if not username:
+        return RedirectResponse(url='/', status_code=303)
+    task = db.get_task_by_id(task_id)
+    categories = db.get_all_categories()
+    users = db.get_all_users()
+    status = db.get_all_status()
+    tasks = db.get_all_tasks()
+
+    return template.TemplateResponse('edit_task.html',
+         {
+            'request': req,
+            'task': task,
+            'username': username,
+            'categories': categories,
+            'users': users,
+            'status': status,
+            'tasks': tasks
+        }
+    )
+@router.post('/updateTask/{task_id}', response_class=HTMLResponse)
+def update_task(
+    req: Request,
+    task_id: int,
+    task: str = Form(...),
+    category_id: int = Form(...),
+    details: str = Form(...),
+    user_id: int = Form(...),
+    status_id: int = Form(...)
+):
+    try:
+        db.update_task(
+            task_id=task_id,
+            task=task,
+            category_id=category_id,
+            details=details,
+            user_id=user_id,
+            status_id=status_id
+        )
+
+        return RedirectResponse(url='/tasks', status_code=303)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al actualizar el task: {e}")

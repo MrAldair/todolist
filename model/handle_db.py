@@ -1,4 +1,6 @@
 import sqlite3
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 #----------------Database Conexion----------------
 class HandleDB():
@@ -123,4 +125,83 @@ class HandleDB():
                 return cur.lastrowid  # Devuelve el ID de la tarea creada
         except sqlite3.Error as e:
             print(f"Error al crear la tarea '{task}': {e}")
+            raise
+
+    def get_task_by_id(self, task_id):
+        """Obtiene una tarea por su ID."""
+        try:
+            with self._connect() as conn:
+                cur = conn.cursor()
+                cur.execute("""
+                    SELECT task_id, task, details, created, status_id, category_id, user_id, updated 
+                    FROM tasks WHERE task_id = ?
+                """, (task_id,))
+                row = cur.fetchone()
+                return {
+                    "task_id": row[0],
+                    "task": row[1],
+                    "details": row[2],
+                    "created": row[3],
+                    "status_id": row[4],
+                    "category_id": row[5],
+                    "user_id": row[6],
+                    "updated": row[7]
+                } if row else None
+        except sqlite3.Error as e:
+            print(f"Error al obtener la tarea con ID {task_id}: {e}")
+            raise
+
+    def update_task(self, task_id, task=None, details=None, status_id=None, category_id=None, user_id=None):
+        """Actualiza una tarea por su ID."""
+        try:
+            with self._connect() as conn:
+                cur = conn.cursor()
+
+                # Generar la consulta dinámicamente según los valores proporcionados
+                updates = []
+                params = []
+                
+                if task:
+                    updates.append("task = ?")
+                    params.append(task)
+                if details:
+                    updates.append("details = ?")
+                    params.append(details)
+                if status_id:
+                    updates.append("status_id = ?")
+                    params.append(status_id)
+                if category_id:
+                    updates.append("category_id = ?")
+                    params.append(category_id)
+                if user_id:
+                    updates.append("user_id = ?")
+                    params.append(user_id)
+                if not updates:
+                    return 0  # No hay cambios
+                
+                # Agregar la fecha de actualización
+                updated_time = datetime.now(ZoneInfo("America/Tijuana")).strftime('%H:%M:%S %m-%d-%Y')
+                updates.append("updated = ?")
+                params.append(updated_time)  
+                
+                params.append(task_id)
+
+                query = f"UPDATE tasks SET {', '.join(updates)} WHERE task_id = ?"
+                cur.execute(query, params)
+                conn.commit()
+                return cur.rowcount  # Devuelve el número de filas afectadas
+        except sqlite3.Error as e:
+            print(f"Error al actualizar la tarea con ID {task_id}: {e}")
+            raise
+
+    def delete_task(self, task_id):
+        """Elimina una tarea por su ID."""
+        try:
+            with self._connect() as conn:
+                cur = conn.cursor()
+                cur.execute("DELETE FROM tasks WHERE task_id = ?", (task_id,))
+                conn.commit()
+                return cur.rowcount  # Devuelve el número de filas eliminadas
+        except sqlite3.Error as e:
+            print(f"Error al eliminar la tarea con ID {task_id}: {e}")
             raise

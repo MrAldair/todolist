@@ -6,53 +6,61 @@
     <p>{{ username }}</p>
 </div>
 
-<form method="post" action="/tasks" class="row g-3 mx-sm-5 mx-2">
+<form method="post" action="/updateTask/{{ task['task_id'] }}" class="row g-3 mx-sm-5 mx-2">
     <div class="form-floating mb-3">
-        <input id="task" type="text" class="form-control" name="task" placeholder="task" required>
+        <input id="task" type="text" value="{{ task['task'] }}" class="form-control" name="task" placeholder="task" required>
         <label for="task">Task</label>
     </div>
+
     <div class="form-floating mb-3">
         <select name="category_id" class="form-select" required>
-            <option value="">Select Category</option>
             {% for category in categories %}
-                <option value="{{ category['category_id'] }}">{{ category['category'] }}</option>
+            <option value="{{ category['category_id'] }}" 
+                {% if category['category_id'] == task["category_id"] %} selected {% endif %}>
+                {{ category['category'] }}
+            </option>
             {% endfor %}
         </select>
         <label for="category_id">Category</label>
     </div>
 
     <div class="form-floating mb-3">
-        <textarea name="details" class="form-control" id="details" required></textarea> 
+        <textarea name="details"  class="form-control" id="details" required>{{ task['details'] }}</textarea> 
         <label for="details">Details</label>
     </div>
 
     <div class="form-floating mb-3">
-        <input id="created" type="date" class="form-control" name="created" placeholder="created">
+        <input id="created" type="date" value="{{ task['created']}}" class="form-control" name="created" placeholder="created">
         <label for="created">Created On</label>
     </div>
 
     <div class="form-floating mb-3">
         <select name="user_id" class="form-select" required>
-            <option value="">Select User</option>
             {% for user in users %}
-                <option value="{{ user['user_id'] }}">{{ user['name'] }}</option>
+                <option value="{{ user['user_id'] }}" 
+                    {% if user['user_id'] == task['name'] %} selected {% endif%}>
+                    {{ user['name'] }}
+                </option>
             {% endfor %}
         </select>
         <label for="user_id">Handle by</label>
     </div>
-<!--    <div class="form-floating mb-3">
+
+    <div class="form-floating mb-3">
         <select name="status_id" class="form-select" required>
-            <option value="">Select Status</option>
             {% for statuss in status %}
-                <option value="{{ statuss['status_id'] }}">{{ statuss['status'] }}</option>
+                <option value="{{ statuss['status_id'] }}" 
+                    {% if statuss['status_id'] == task['status_id'] %} selected {% endif %}>
+                    {{ statuss['status'] }}
+                </option>
             {% endfor %}
         </select>
         <label for="status_id">Status</label>
     </div>
--->
+
 
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-outline-primary" type="submit">Submit Task</button>
+        <button class="btn btn-outline-primary" type="submit">Update Task</button>
         <button class="btn btn-outline-danger" type="button" onclick="window.location.href='/tasks'">Cancel</button>
     </div>
 </form>
@@ -68,7 +76,7 @@
                 <th scope="col">Created</th>
                 <th scope="col">Status</th>
                 <th scope="col">Category</th>
-                <th scope="col">Assigned To</th>
+                <th scope="col">Assigned to</th>
                 <th scope="col">Modify</th>
                 <th scope="col">Update</th>
             </tr>
