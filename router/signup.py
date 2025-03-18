@@ -14,16 +14,15 @@ udb = UserDB()
 
 @router.get('/signup', response_class=HTMLResponse)
 def signup(req: Request):
-
+    
     #Consultas
     positions = db.get_all_positions()
-
+    
     return template.TemplateResponse(
         'signup.html',
         {
             'request': req,
             'positions': positions
-
         }
     )
 

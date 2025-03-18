@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from fastapi.templating import Jinja2Templates
 from router.signup import router as signup_router
 from router.index import router as index_router
 from router.dashboard import router as dashboard_router
@@ -7,8 +6,6 @@ from router.tasks import router as tasks_router
 from router.settings import router as settings_router
 
 app = FastAPI()
-template = Jinja2Templates(directory='./view')
-
 
 app.include_router(signup_router)
 app.include_router(index_router)
