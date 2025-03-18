@@ -49,6 +49,21 @@ class HandleDB():
             raise
 
 #---------------------Categories--------------------------------
+    def create_category(self, category):
+        """Crea una nueva category."""
+        try:
+            with self._connect() as conn:
+                cur = conn.cursor()
+                cur.execute("""
+                    INSERT INTO categories (category) 
+                    VALUES (?)
+                """, ( category,))
+                conn.commit()
+                return cur.lastrowid  # Devuelve el ID de la tarea creada
+        except sqlite3.Error as e:
+            print(f"Error al crear la posicion '{category}': {e}")
+            raise
+    
     def get_all_categories(self):
         try:
             with self._connect() as conn:
@@ -62,6 +77,21 @@ class HandleDB():
 
 #---------------------Status--------------------------------
 
+    def create_status(self, status):
+        """Crea una nueva posicion."""
+        try:
+            with self._connect() as conn:
+                cur = conn.cursor()
+                cur.execute("""
+                    INSERT INTO status (status) 
+                    VALUES (?)
+                """, ( status,))
+                conn.commit()
+                return cur.lastrowid  # Devuelve el ID de la tarea creada
+        except sqlite3.Error as e:
+            print(f"Error al crear el status '{status}': {e}")
+            raise
+    
     def get_all_status(self):
         try:
             with self._connect() as conn:
@@ -75,6 +105,21 @@ class HandleDB():
 
 #---------------------Positions--------------------------------
 
+    def create_position(self, position):
+        """Crea una nueva posicion."""
+        try:
+            with self._connect() as conn:
+                cur = conn.cursor()
+                cur.execute("""
+                    INSERT INTO positions (position) 
+                    VALUES (?)
+                """, ( position,))
+                conn.commit()
+                return cur.lastrowid  # Devuelve el ID de la tarea creada
+        except sqlite3.Error as e:
+            print(f"Error al crear la posicion '{position}': {e}")
+            raise
+    
     def get_all_positions(self):
         try:
             with self._connect() as conn:

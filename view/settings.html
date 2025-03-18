@@ -1,0 +1,160 @@
+{% extends "components/layout.html" %}
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Settings</h1>
+
+    <div class="row">
+        <!-- Positions Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Add Position</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="/settings/position">
+                        <div class="form-floating mb-3">
+                            <input id="position" type="text" class="form-control" name="position" placeholder="Position" required>
+                            <label for="position">Enter Position</label>
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn btn-outline-primary" type="submit">Create Position</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Add Status</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="/settings/status">
+                        <div class="form-floating mb-3">
+                            <input id="status" type="text" class="form-control" name="status" placeholder="Status" required>
+                            <label for="status">Enter Status</label>
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn btn-outline-success" type="submit">Create Status</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-white">
+                    <h5 class="mb-0">Add Category</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="/settings/category">
+                        <div class="form-floating mb-3">
+                            <input id="category" type="text" class="form-control" name="category" placeholder="Category" required>
+                            <label for="category">Enter Category</label>
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn btn-outline-warning" type="submit">Create Category</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tables Section -->
+    <div class="row mt-5">
+        <!-- Positions Table -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Positions</h5>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Position</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for position in positions %}
+                            <tr>
+                                <td>{{ position['position_id'] }}</td>
+                                <td>{{ position['position'] }}</td>
+                                <td><a href="/position" class="btn btn-sm btn-outline-warning">Update</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Table -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Statuses</h5>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for stt in status %}
+                            <tr>
+                                <td>{{ stt['status_id'] }}</td>
+                                <td>{{ stt['status'] }}</td>
+                                <td><a href="/status" class="btn btn-sm btn-outline-warning">Update</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories Table -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-white">
+                    <h5 class="mb-0">Categories</h5>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Category</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for category in categories %}
+                            <tr>
+                                <td>{{ category['category_id'] }}</td>
+                                <td>{{ category['category'] }}</td>
+                                <td><a href="/category" class="btn btn-sm btn-outline-warning">Update</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
