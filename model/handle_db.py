@@ -250,3 +250,123 @@ class HandleDB():
         except sqlite3.Error as e:
             print(f"Error al eliminar la tarea con ID {task_id}: {e}")
             raise
+        
+#--------------------------Consulta task por status----------------------------
+    def get_open_tasks(self):
+        try:
+            with self._connect() as conn:
+                cur = conn.cursor()
+                cur.execute("""
+                            SELECT
+                                t.task_id,
+                                t.task,
+                                t.details,
+                                STRFTIME('%m-%d-%Y', t.created) AS Created,
+                                s.status AS status,
+                                c.category AS Category,
+                                u.firstname || ' ' || u.lastname AS user_name,
+                                t.updated
+                            FROM tasks t
+                            LEFT JOIN status s ON t.status_id = s.status_id
+                            LEFT JOIN categories c ON t.category_id = c.category_id
+                            LEFT JOIN users u ON t.user_id = u.user_id
+                            WHERE t.status_id = 1;""")
+                tasks = [{"task_id": row[0], "task": row[1], "details": row[2], "Created on": row[3],
+                           "status_id": row[4], "category_id": row[5], "user_name": row[6], "updated": row[7]} for row in cur.fetchall()]
+                return tasks
+        except sqlite3.Error as e:
+            print(f"Error al obtener todas las tasks: {e}")
+            raise
+        
+    def get_progress_tasks(self):
+        try:
+            with self._connect() as conn:
+                cur = conn.cursor()
+                cur.execute("""
+                            SELECT
+                                t.task_id,
+                                t.task,
+                                t.details,
+                                STRFTIME('%m-%d-%Y', t.created) AS Created,
+                                s.status AS status,
+                                c.category AS Category,
+                                u.firstname || ' ' || u.lastname AS user_name,
+                                t.updated
+                            FROM tasks t
+                            LEFT JOIN status s ON t.status_id = s.status_id
+                            LEFT JOIN categories c ON t.category_id = c.category_id
+                            LEFT JOIN users u ON t.user_id = u.user_id
+                            WHERE t.status_id = 2;""")
+                tasks = [{"task_id": row[0], "task": row[1], "details": row[2], "Created on": row[3],
+                           "status_id": row[4], "category_id": row[5], "user_name": row[6], "updated": row[7]} for row in cur.fetchall()]
+                return tasks
+        except sqlite3.Error as e:
+            print(f"Error al obtener todas las tasks: {e}")
+            raise
+        
+    def get_completed_tasks(self):
+        try:
+            with self._connect() as conn:
+                cur = conn.cursor()
+                cur.execute("""
+                            SELECT
+                                t.task_id,
+                                t.task,
+                                t.details,
+                                STRFTIME('%m-%d-%Y', t.created) AS Created,
+                                s.status AS status,
+                                c.category AS Category,
+                                u.firstname || ' ' || u.lastname AS user_name,
+                                t.updated
+                            FROM tasks t
+                            LEFT JOIN status s ON t.status_id = s.status_id
+                            LEFT JOIN categories c ON t.category_id = c.category_id
+                            LEFT JOIN users u ON t.user_id = u.user_id
+                            WHERE t.status_id = 3;""")
+                tasks = [{"task_id": row[0], "task": row[1], "details": row[2], "Created on": row[3],
+                           "status_id": row[4], "category_id": row[5], "user_name": row[6], "updated": row[7]} for row in cur.fetchall()]
+                return tasks
+        except sqlite3.Error as e:
+            print(f"Error al obtener todas las tasks: {e}")
+            raise
+        
+    def status_count(self):
+        try:
+            with self._connect() as conn:
+                cur = conn.cursor()
+                cur.execute("""
+                    SELECT
+                        COUNT(*) as Total,
+                        SUM(CASE WHEN s.status_id = 1 THEN 1 ELSE 0 END) AS Open,
+                        SUM(CASE WHEN s.status_id = 2 THEN 1 ELSE 0 END) AS InProgress,
+                        SUM(CASE WHEN s.status_id = 3 THEN 1 ELSE 0 END) AS Completed
+                    FROM tasks t
+                    LEFT JOIN status s ON t.status_id = s.status_id;
+                """)
+                row = cur.fetchone()
+
+                total = row[0] or 1  # Previene la división por cero si no hay tareas.
+                open_count = row[1]
+                in_progress_count = row[2]
+                completed_count = row[3]
+
+                # Calculamos los porcentajes
+                open_percentage = (open_count / total) * 100
+                in_progress_percentage = (in_progress_count / total) * 100
+                completed_percentage = (completed_count / total) * 100
+
+                count_status = {
+                    'Total': total,
+                    'Open': open_count,
+                    'InProgress': in_progress_count,
+                    'Completed': completed_count,
+                    'OpenPercentage': round(open_percentage, 2),
+                    'InProgressPercentage': round(in_progress_percentage, 2),
+                    'CompletedPercentage': round(completed_percentage, 2)
+                }
+
+                return count_status
+        except sqlite3.Error as e:
+            print(f"Error al obtener todas las tasks: {e}")
+            raise
+

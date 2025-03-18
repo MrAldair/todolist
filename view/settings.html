@@ -68,91 +68,90 @@
     </div>
 
     <!-- Tables Section -->
-    <div class="row mt-5">
+<div class="row mt-5">
         <!-- Positions Table -->
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Positions</h5>
-                </div>
-                <div class="card-body p-0">
-                    <table class="table table-striped mb-0">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Position</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for position in positions %}
-                            <tr>
-                                <td>{{ position['position_id'] }}</td>
-                                <td>{{ position['position'] }}</td>
-                                <td><a href="/position" class="btn btn-sm btn-outline-warning">Update</a></td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Positions</h5>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Position</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for position in positions %}
+                        <tr>
+                            <td>{{ loop.index }}</td>  {# Muestra el número de fila en orden #}
+                            <td>{{ position['position'] }}</td>
+                            <td><a href="/position" class="btn btn-sm btn-outline-warning">Update</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
+    </div>
 
-        <!-- Status Table -->
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-header bg-success text-white">
-                    <h5 class="mb-0">Statuses</h5>
-                </div>
-                <div class="card-body p-0">
-                    <table class="table table-striped mb-0">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for stt in status %}
-                            <tr>
-                                <td>{{ stt['status_id'] }}</td>
-                                <td>{{ stt['status'] }}</td>
-                                <td><a href="/status" class="btn btn-sm btn-outline-warning">Update</a></td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+    <!-- Status Table -->
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Statuses</h5>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for stt in status %}
+                        <tr>
+                            <td>{{ loop.index }}</td>  {# Muestra el número de fila en orden #}
+                            <td>{{ stt['status'] }}</td>
+                            <td><a href="/status" class="btn btn-sm btn-outline-warning">Update</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
+    </div>
 
-        <!-- Categories Table -->
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-header bg-warning text-white">
-                    <h5 class="mb-0">Categories</h5>
-                </div>
-                <div class="card-body p-0">
-                    <table class="table table-striped mb-0">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Category</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for category in categories %}
-                            <tr>
-                                <td>{{ category['category_id'] }}</td>
-                                <td>{{ category['category'] }}</td>
-                                <td><a href="/category" class="btn btn-sm btn-outline-warning">Update</a></td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+    <!-- Categories Table -->
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">Categories</h5>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Category</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for category in categories %}
+                        <tr>
+                            <td>{{ loop.index }}</td>  {# Muestra el número de fila en orden #}
+                            <td>{{ category['category'] }}</td>
+                            <td><a href="/category" class="btn btn-sm btn-outline-warning">Update</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

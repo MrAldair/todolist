@@ -14,13 +14,17 @@ def get_dashboard(req: Request):
     username = req.cookies.get('username')
     if not username:
         return RedirectResponse(url='/', status_code=303)
-
+    
     # Consultas
     categories = db.get_all_categories()
     users = db.get_all_users()
     status = db.get_all_status()
     tasks = db.get_all_tasks()
-
+    Open_tasks = db.get_open_tasks()
+    progress_tasks = db.get_progress_tasks()
+    completed_tasks = db.get_completed_tasks()
+    count_status = db.status_count()
+    
     return template.TemplateResponse(
         'tasks.html',
         {
@@ -29,7 +33,11 @@ def get_dashboard(req: Request):
             'categories': categories,
             'users': users,
             'status': status,
-            'tasks': tasks
+            'Open_tasks': Open_tasks,
+            'tasks': tasks,
+            'progress_tasks':progress_tasks,
+            'completed_tasks': completed_tasks,
+            'count_status': count_status
         }
     )
 
@@ -70,7 +78,11 @@ def edit_task(req: Request, task_id: int):
     users = db.get_all_users()
     status = db.get_all_status()
     tasks = db.get_all_tasks()
-
+    Open_tasks = db.get_open_tasks()
+    progress_tasks = db.get_progress_tasks()
+    completed_tasks = db.get_completed_tasks()
+    count_status = db.status_count()
+    
     return template.TemplateResponse('edit_task.html',
          {
             'request': req,
@@ -79,9 +91,14 @@ def edit_task(req: Request, task_id: int):
             'categories': categories,
             'users': users,
             'status': status,
-            'tasks': tasks
+            'tasks': tasks,
+            'progress_tasks':progress_tasks,
+            'completed_tasks': completed_tasks,
+            'Open_tasks': Open_tasks,
+            'count_status': count_status
         }
     )
+
 @router.post('/updateTask/{task_id}', response_class=HTMLResponse)
 def update_task(
     req: Request,
@@ -101,7 +118,7 @@ def update_task(
             user_id=user_id,
             status_id=status_id
         )
-
+        
         return RedirectResponse(url='/tasks', status_code=303)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al actualizar el task: {e}")
