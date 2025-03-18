@@ -2,10 +2,12 @@ from fastapi import APIRouter, Form, Request,HTTPException, status, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from model.handle_db import HandleDB
+from model.user_db import UserDB
 
 router = APIRouter()
 template = Jinja2Templates(directory="./view")
 db = HandleDB()
+udb = UserDB()
 
 
 @router.get('/tasks', response_class=HTMLResponse)
@@ -17,7 +19,7 @@ def get_dashboard(req: Request):
     
     # Consultas
     categories = db.get_all_categories()
-    users = db.get_all_users()
+    users = udb.get_all_users()
     status = db.get_all_status()
     tasks = db.get_all_tasks()
     Open_tasks = db.get_open_tasks()
@@ -75,7 +77,7 @@ def edit_task(req: Request, task_id: int):
         return RedirectResponse(url='/', status_code=303)
     task = db.get_task_by_id(task_id)
     categories = db.get_all_categories()
-    users = db.get_all_users()
+    users = udb.get_all_users()
     status = db.get_all_status()
     tasks = db.get_all_tasks()
     Open_tasks = db.get_open_tasks()

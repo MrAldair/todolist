@@ -3,11 +3,14 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from controller.user import User
 from model.handle_db import HandleDB
+from model.user_db import UserDB
 
 
 router = APIRouter()
 template = Jinja2Templates(directory="./view")
 db = HandleDB()
+udb = UserDB()
+
 
 @router.get('/signup', response_class=HTMLResponse)
 def signup(req: Request):
