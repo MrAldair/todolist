@@ -3,11 +3,13 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from lib.check_passw import check_user
 from model.handle_db import HandleDB
+from model.tasks_db import TaskDB
 
 
 router = APIRouter()
 template = Jinja2Templates(directory="./view")
 db = HandleDB()
+tdb = TaskDB()
 
 #Dependencia para verificar autenticacion
 def get_current_user(req: Request):
@@ -46,10 +48,13 @@ def get_dashboard(req: Request):
     username = req.cookies.get('username')
     if not username:
         return RedirectResponse(url='/', status_code=303)
+    
+    count_status = tdb.status_count()
     return template.TemplateResponse(
         'dashboard.html',
         {
             'request':req,
-            'username': username
+            'username': username,
+            'count_status': count_status
         }
     )

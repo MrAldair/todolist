@@ -5,55 +5,6 @@
     <h1 class="text-center mb-4">Edit Task</h1>
     <p class="text-center text-muted">Welcome, {{ username }}</p>
 
-    <div class="container py-5">
-        <h3 class="text-center mb-4">Task Status Overview</h3>
-        <div class="row">
-            <!-- No Progress Tasks -->
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-header bg-dark text-white">
-                        No Progress Tasks
-                    </div>
-                    <div class="card-body">
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: {{ count_status['OpenPercentage'] }}%;" aria-valuenow="{{ count_status['OpenPercentage'] }}" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <p class="mt-2">{{ count_status['Open'] }} ({{ count_status['OpenPercentage'] }}%)</p>
-                    </div>
-                </div>
-            </div>
-            <!-- In Progress -->
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-header bg-warning text-white">
-                        In Progress
-                    </div>
-                    <div class="card-body">
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: {{ count_status['InProgressPercentage'] }}%;" aria-valuenow="{{ count_status['InProgressPercentage'] }}" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <p class="mt-2">{{ count_status['InProgress'] }} ({{ count_status['InProgressPercentage'] }}%)</p>
-                    </div>
-                </div>
-            </div>
-            <!-- Completed Tasks -->
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-header bg-success text-white">
-                        Completed Tasks
-                    </div>
-                    <div class="card-body">
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: {{ count_status['CompletedPercentage'] }}%;" aria-valuenow="{{ count_status['CompletedPercentage'] }}" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <p class="mt-2">{{ count_status['Completed'] }} ({{ count_status['CompletedPercentage'] }}%)</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Formulario para editar tarea -->
     <div class="card shadow-sm mb-5">
         <div class="card-header bg-primary text-white">
             <h5 class="mb-0">Update Task</h5>
@@ -62,7 +13,6 @@
             <form method="post" action="/updateTask/{{ task['task_id'] }}">
                 <div class="row g-3">
 
-                    <!-- Tarea -->
                     <div class="col-12">
                         <div class="form-floating mb-3">
                             <input id="task" type="text" value="{{ task['task'] }}" class="form-control" name="task" placeholder="task" required>
@@ -70,7 +20,6 @@
                         </div>
                     </div>
 
-                    <!-- Categoría -->
                     <div class="col-12">
                         <div class="form-floating mb-3">
                             <select name="category_id" class="form-select" required>
@@ -85,7 +34,6 @@
                         </div>
                     </div>
 
-                    <!-- Detalles -->
                     <div class="col-12">
                         <div class="form-floating mb-3">
                             <textarea name="details" class="form-control" id="details" required>{{ task['details'] }}</textarea>
@@ -93,7 +41,6 @@
                         </div>
                     </div>
 
-                    <!-- Fecha de creación -->
                     <div class="col-12">
                         <div class="form-floating mb-3">
                             <input id="created" type="date" value="{{ task['created'] }}" class="form-control" name="created" placeholder="created" required>
@@ -101,7 +48,6 @@
                         </div>
                     </div>
 
-                    <!-- Usuario asignado -->
                     <div class="col-12">
                         <div class="form-floating mb-3">
                             <select name="user_id" class="form-select" required>
@@ -116,7 +62,6 @@
                         </div>
                     </div>
 
-                    <!-- Estado -->
                     <div class="col-12">
                         <div class="form-floating mb-3">
                             <select name="status_id" class="form-select" required>
@@ -131,7 +76,6 @@
                         </div>
                     </div>
 
-                    <!-- Botones de acción -->
                     <div class="col-12 d-flex justify-content-end">
                         <button class="btn btn-outline-primary me-2" type="submit">Update Task</button>
                         <button class="btn btn-outline-danger" type="button" onclick="window.location.href='/tasks'">Cancel</button>
@@ -141,127 +85,54 @@
         </div>
     </div>
 
-    <!-- Tareas abiertas -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-header bg-dark text-white">
-            <h5 class="mb-0">No Progress Tasks</h5>
+    {% set task_groups = {
+        'No Progress Tasks': {'tasks': Open_tasks, 'color': 'dark'},
+        'In Progress Tasks': {'tasks': progress_tasks, 'color': 'warning'},
+        'Completed Tasks': {'tasks': completed_tasks, 'color': 'success'}
+    } %}
+    
+    {% for title, group in task_groups.items() %}
+        {% if group['tasks'] | length > 0 %}  {# Solo muestra si hay tareas #}
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-{{ group['color'] }} text-white">
+                <h5 class="mb-0">{{ title }}</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Task</th>
+                            <th>Details</th>
+                            <th>Created</th>
+                            <th>Status</th>
+                            <th>Category</th>
+                            <th>Assigned To</th>
+                            <th>Updated On</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in group['tasks'] %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ task['task'] }}</td>
+                            <td>{{ task['details'] }}</td>
+                            <td>{{ task['Created on'] }}</td>
+                            <td>{{ task['status_id'] }}</td>
+                            <td>{{ task['category_id'] }}</td>
+                            <td>{{ task['user_name'] }}</td>
+                            <td>{{ task['updated'] }}</td>
+                            <td>
+                                <a href="/editTask/{{ task['task_id'] }}" class="btn btn-outline-warning btn-sm">Update</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="card-body">
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Task</th>
-                        <th>Details</th>
-                        <th>Created</th>
-                        <th>Status</th>
-                        <th>Category</th>
-                        <th>Assigned To</th>
-                        <th>Updated On</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for task in Open_tasks %}
-                    <tr>
-                        <td>{{ loop.index }}</td>
-                        <td>{{ task['task'] }}</td>
-                        <td>{{ task['details'] }}</td>
-                        <td>{{ task['Created on'] }}</td>
-                        <td>{{ task['status_id'] }}</td>
-                        <td>{{ task['category_id'] }}</td>
-                        <td>{{ task['user_name'] }}</td>
-                        <td>{{ task['updated'] }}</td>
-                        <td>
-                            <a href="/editTask/{{ task['task_id'] }}" class="btn btn-outline-warning btn-sm">Update</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Tareas en progreso -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-header bg-warning text-white">
-            <h5 class="mb-0">In Progress Tasks</h5>
-        </div>
-        <div class="card-body">
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Task</th>
-                        <th>Details</th>
-                        <th>Created</th>
-                        <th>Status</th>
-                        <th>Category</th>
-                        <th>Assigned To</th>
-                        <th>Updated On</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for task in progress_tasks %}
-                    <tr>
-                        <td>{{ loop.index }}</td>
-                        <td>{{ task['task'] }}</td>
-                        <td>{{ task['details'] }}</td>
-                        <td>{{ task['Created on'] }}</td>
-                        <td>{{ task['status_id'] }}</td>
-                        <td>{{ task['category_id'] }}</td>
-                        <td>{{ task['user_name'] }}</td>
-                        <td>{{ task['updated'] }}</td>
-                        <td>
-                            <a href="/editTask/{{ task['task_id'] }}" class="btn btn-outline-warning btn-sm">Update</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Tareas completadas -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-header bg-success text-white">
-            <h5 class="mb-0">Completed Tasks</h5>
-        </div>
-        <div class="card-body">
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Task</th>
-                        <th>Details</th>
-                        <th>Created</th>
-                        <th>Status</th>
-                        <th>Category</th>
-                        <th>Assigned To</th>
-                        <th>Updated On</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for task in completed_tasks %}
-                    <tr>
-                        <td>{{ loop.index }}</td>
-                        <td>{{ task['task'] }}</td>
-                        <td>{{ task['details'] }}</td>
-                        <td>{{ task['Created on'] }}</td>
-                        <td>{{ task['status_id'] }}</td>
-                        <td>{{ task['category_id'] }}</td>
-                        <td>{{ task['user_name'] }}</td>
-                        <td>{{ task['updated'] }}</td>
-                        <td>
-                            <a href="/editTask/{{ task['task_id'] }}" class="btn btn-outline-warning btn-sm">Update</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
+        {% endif %}
+    {% endfor %}
 </div>
 {% endblock %}

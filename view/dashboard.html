@@ -6,4 +6,53 @@
     <p class="text-center text-muted">Welcome, {{ username }}</p>
 </div>
 
+<div class="container py-5">
+    <h3 class="text-center mb-4">Task Status Overview</h3>
+    <div class="row">
+        <!-- No Progress Tasks -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    No Progress Tasks
+                </div>
+                <div class="card-body">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: {{ count_status['OpenPercentage'] }}%;" aria-valuenow="{{ count_status['OpenPercentage'] }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="mt-2">{{ count_status['Open'] }} ({{ count_status['OpenPercentage'] }}%)</p>
+                </div>
+            </div>
+        </div>
+        <!-- In Progress -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header bg-warning text-white">
+                    In Progress
+                </div>
+                <div class="card-body">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: {{ count_status['InProgressPercentage'] }}%;" aria-valuenow="{{ count_status['InProgressPercentage'] }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="mt-2">{{ count_status['InProgress'] }} ({{ count_status['InProgressPercentage'] }}%)</p>
+                </div>
+            </div>
+        </div>
+        <!-- Completed Tasks -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    Completed Tasks
+                </div>
+                <div class="card-body">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: {{ count_status['CompletedPercentage'] }}%;" aria-valuenow="{{ count_status['CompletedPercentage'] }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="mt-2">{{ count_status['Completed'] }} ({{ count_status['CompletedPercentage'] }}%)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}

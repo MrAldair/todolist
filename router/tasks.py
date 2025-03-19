@@ -32,7 +32,6 @@ def get_dashboard(req: Request):
     Open_tasks = tdb.get_open_tasks()
     progress_tasks = tdb.get_progress_tasks()
     completed_tasks = tdb.get_completed_tasks()
-    count_status = tdb.status_count()
     
     return template.TemplateResponse(
         'tasks.html',
@@ -46,7 +45,6 @@ def get_dashboard(req: Request):
             'tasks': tasks,
             'progress_tasks':progress_tasks,
             'completed_tasks': completed_tasks,
-            'count_status': count_status
         }
     )
 
@@ -90,7 +88,6 @@ def edit_task(req: Request, task_id: int):
     Open_tasks = tdb.get_open_tasks()
     progress_tasks = tdb.get_progress_tasks()
     completed_tasks = tdb.get_completed_tasks()
-    count_status = tdb.status_count()
     
     return template.TemplateResponse('edit_task.html',
          {
@@ -104,7 +101,6 @@ def edit_task(req: Request, task_id: int):
             'progress_tasks':progress_tasks,
             'completed_tasks': completed_tasks,
             'Open_tasks': Open_tasks,
-            'count_status': count_status
         }
     )
 
