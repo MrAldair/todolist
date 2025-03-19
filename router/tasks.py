@@ -1,14 +1,21 @@
-from fastapi import APIRouter, Form, Request,HTTPException, status, Depends
+from fastapi import APIRouter, Form, Request,HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from model.handle_db import HandleDB
 from model.user_db import UserDB
+from model.categories_db import CategoriesDB
+from model.status_db import StatusDB
+from model.tasks_db import TaskDB
 
 router = APIRouter()
 template = Jinja2Templates(directory="./view")
+
+#Consultas DB
 db = HandleDB()
 udb = UserDB()
-
+cdb = CategoriesDB()
+sdb = StatusDB()
+tdb = TaskDB()
 
 @router.get('/tasks', response_class=HTMLResponse)
 def get_dashboard(req: Request):
@@ -18,14 +25,14 @@ def get_dashboard(req: Request):
         return RedirectResponse(url='/', status_code=303)
     
     # Consultas
-    categories = db.get_all_categories()
+    categories = cdb.get_all_categories()
     users = udb.get_all_users()
-    status = db.get_all_status()
-    tasks = db.get_all_tasks()
-    Open_tasks = db.get_open_tasks()
-    progress_tasks = db.get_progress_tasks()
-    completed_tasks = db.get_completed_tasks()
-    count_status = db.status_count()
+    status = sdb.get_all_status()
+    tasks = tdb.get_all_tasks()
+    Open_tasks = tdb.get_open_tasks()
+    progress_tasks = tdb.get_progress_tasks()
+    completed_tasks = tdb.get_completed_tasks()
+    count_status = tdb.status_count()
     
     return template.TemplateResponse(
         'tasks.html',
@@ -54,7 +61,7 @@ def add_task(
     status_id: int = 1
 ):
     try:
-        db.create_task(
+        tdb.create_task(
             task=task,
             category_id=category_id,
             details=details,
@@ -75,15 +82,15 @@ def edit_task(req: Request, task_id: int):
     username = req.cookies.get('username')
     if not username:
         return RedirectResponse(url='/', status_code=303)
-    task = db.get_task_by_id(task_id)
-    categories = db.get_all_categories()
+    task = tdb.get_task_by_id(task_id)
+    categories = cdb.get_all_categories()
     users = udb.get_all_users()
-    status = db.get_all_status()
-    tasks = db.get_all_tasks()
-    Open_tasks = db.get_open_tasks()
-    progress_tasks = db.get_progress_tasks()
-    completed_tasks = db.get_completed_tasks()
-    count_status = db.status_count()
+    status = sdb.get_all_status()
+    tasks = tdb.get_all_tasks()
+    Open_tasks = tdb.get_open_tasks()
+    progress_tasks = tdb.get_progress_tasks()
+    completed_tasks = tdb.get_completed_tasks()
+    count_status = tdb.status_count()
     
     return template.TemplateResponse('edit_task.html',
          {
@@ -112,7 +119,7 @@ def update_task(
     status_id: int = Form(...)
 ):
     try:
-        db.update_task(
+        tdb.update_task(
             task_id=task_id,
             task=task,
             category_id=category_id,

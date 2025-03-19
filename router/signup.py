@@ -4,19 +4,22 @@ from fastapi.templating import Jinja2Templates
 from controller.user import User
 from model.handle_db import HandleDB
 from model.user_db import UserDB
+from model.positions_db import PositionsDB
 
 
 router = APIRouter()
 template = Jinja2Templates(directory="./view")
+
 db = HandleDB()
 udb = UserDB()
+pdb = PositionsDB()
 
 
 @router.get('/signup', response_class=HTMLResponse)
 def signup(req: Request):
     
     #Consultas
-    positions = db.get_all_positions()
+    positions = pdb.get_all_positions()
     
     return template.TemplateResponse(
         'signup.html',
