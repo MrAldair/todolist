@@ -213,7 +213,8 @@ class TaskDB(HandleDB):
                         SUM(CASE WHEN s.status_id = 2 THEN 1 ELSE 0 END) AS InProgress,
                         SUM(CASE WHEN s.status_id = 3 THEN 1 ELSE 0 END) AS Completed
                     FROM tasks t
-                    LEFT JOIN status s ON t.status_id = s.status_id;
+                    LEFT JOIN status s ON t.status_id = s.status_id
+                    WHERE s.status_id IN (1, 2, 3);
                 """)
                 row = cur.fetchone()
 
