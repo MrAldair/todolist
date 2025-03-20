@@ -10,9 +10,9 @@
     <h3 class="text-center mb-4">Task Status Overview</h3>
     <div class="row">
         {% set status_groups = {
-            'No Progress Tasks': {'count': count_status['Open'], 'percentage': count_status['OpenPercentage'], 'color': 'dark'},
+            'No Progress': {'count': count_status['Open'], 'percentage': count_status['OpenPercentage'], 'color': 'dark'},
             'In Progress': {'count': count_status['InProgress'], 'percentage': count_status['InProgressPercentage'], 'color': 'warning'},
-            'Completed Tasks': {'count': count_status['Completed'], 'percentage': count_status['CompletedPercentage'], 'color': 'success'}
+            'Completed': {'count': count_status['Completed'], 'percentage': count_status['CompletedPercentage'], 'color': 'success'}
         } %}
     
         {% for title, group in status_groups.items() %}
@@ -26,7 +26,7 @@
                         <div class="progress">
                             <div class="progress-bar" role="progressbar" style="width: {{ group['percentage'] }}%;" aria-valuenow="{{ group['percentage'] }}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
-                        <p class="mt-2">{{ group['count'] }} ({{ group['percentage'] }}%)</p>
+                        <p class="mt-2">{{ group['count'] }}({{ group['percentage'] }}%)</p>
                     </div>
                 </div>
             </div>

@@ -86,11 +86,11 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>Category</th>
                             <th>Task</th>
                             <th>Details</th>
                             <th>Created</th>
                             <th>Status</th>
-                            <th>Category</th>
                             <th>Assigned To</th>
                             <th>Updated On</th>
                             <th>Actions</th>
@@ -100,11 +100,11 @@
                         {% for task in group['tasks'] %}
                         <tr>
                             <td>{{ loop.index }}</td>
+                            <td>{{ task['category_id'] }}</td>
                             <td>{{ task['task'] }}</td>
                             <td>{{ task['details'] }}</td>
                             <td>{{ task['Created on'] }}</td>
                             <td>{{ task['status_id'] }}</td>
-                            <td>{{ task['category_id'] }}</td>
                             <td>{{ task['user_name'] }}</td>
                             <td>{{ task['updated'] }}</td>
                             <td>
