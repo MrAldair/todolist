@@ -118,50 +118,5 @@
         </div>
         {% endif %}
     {% endfor %}
-
-    {% for title, group in task_groups.items() %}
-        {% if group['tasks'] | length > 0 %}  {# Solo muestra si hay tareas #}
-        <div class="card shadow-sm mb-4">
-            <div class="card-header bg-{{ group['color'] }} text-white">
-                <h5 class="mb-0">{{ title }}</h5>
-            </div>
-            <div class="card-body">
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Task</th>
-                            <th>Details</th>
-                            <th>Created</th>
-                            <th>Status</th>
-                            <th>Category</th>
-                            <th>Assigned To</th>
-                            <th>Updated On</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for task in group['tasks'] %}
-                        <tr>
-                            <td>{{ loop.index }}</td>
-                            <td>{{ task['task'] }}</td>
-                            <td>{{ task['details'] }}</td>
-                            <td>{{ task['Created on'] }}</td>
-                            <td>{{ task['status_id'] }}</td>
-                            <td>{{ task['category_id'] }}</td>
-                            <td>{{ task['user_name'] }}</td>
-                            <td>{{ task['updated'] }}</td>
-                            <td>
-                                <a href="/editTask/{{ task['task_id'] }}" class="btn btn-outline-warning btn-sm">Update</a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        {% endif %}
-    {% endfor %}
-
 </div>
 {% endblock %}
