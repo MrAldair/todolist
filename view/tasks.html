@@ -210,9 +210,9 @@
 
 <div id="tableView">
     {% set task_groups = {
-        'No Progress Tasks': {'tasks': Open_tasks, 'color': 'dark'},
-        'In Progress Tasks': {'tasks': progress_tasks, 'color': 'warning'},
-        'Completed Tasks': {'tasks': completed_tasks, 'color': 'success'}
+        'No Progress': {'tasks': Open_tasks, 'color': 'dark'},
+        'In Progress': {'tasks': progress_tasks, 'color': 'warning'},
+        'Completed': {'tasks': completed_tasks, 'color': 'success'}
     } %}
 
     {% for title, group in task_groups.items() %}
